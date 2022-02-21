@@ -13,15 +13,6 @@ CORS(app)
 pass_dict = {"HannahReese": "password1", "MinaDedijer": "password2"}
 
 
-# @app.route('/<username>/home')
-# def get_home(username):
-#     user = User().find_by_username(username)
-#     if user is None:
-#         return jsonify("User does not exist"), 400
-
-#     user[0]["password"] = "nope"
-#     return jsonify(user), 200
-
 @app.route('/', methods=['GET', 'POST'])
 def helloWorld():
     if request.method == 'GET':
@@ -58,6 +49,16 @@ def helloWorld():
         except: # username invalid
             return jsonify({}), 400
 
+# home page
+@app.route('/home')
+def get_home():
+    return jsonify("NOAA Data"), 200
+    # user = User().find_by_username(username)
+    # if user is None:
+    #     return jsonify("User does not exist"), 400
+
+    # user[0]["password"] = "nope"
+    # return jsonify(user), 200
 
 # @app.route('/api/users', methods=['POST'])
 # def create_user():
