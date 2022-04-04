@@ -5,7 +5,7 @@ import hashlib
 import json
 from flask_cors import CORS
 # from mongodb import User
-import get_stuff
+import backend.get_stuff as get_stuff
 
 
 app = Flask(__name__)
@@ -52,7 +52,7 @@ def get_home():
             return jsonify('Bad Request'), 400
 
         # call NOAA APIs here!
-        
+        get_stuff(start, end)
 
         return jsonify("Data from: {0} - {1} at {2}".format(start, end, time)), 200
 
