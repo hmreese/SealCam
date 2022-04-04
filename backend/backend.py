@@ -4,55 +4,58 @@ from flask import jsonify
 import hashlib
 import json
 from flask_cors import CORS
-#from mongodb import User
+# from mongodb import User
+import get_stuff
 
 
 app = Flask(__name__)
 CORS(app)
 
-pass_dict = {"HannahReese": "password1", "MinaDedijer": "password2"}
-
+pass_dict = {"hreese": "password", "mdedijer": "password"}
 
 @app.route('/', methods=['GET', 'POST'])
 def helloWorld():
     if request.method == 'GET':
-        return jsonify('Hello, World!'), 200
+        return jsonify("Welcome to Seal Cam Stats!"), 200
 
     # log in
-    elif request.method == 'POST':
-        ret = request.get_json()
-        try:
-            username = ret["username"]
-            password = ret["password"]
-        except:
-            return jsonify({}), 400
+    # elif request.method == 'POST':
+    #     ret = request.get_json()
+    #     try:
+    #         username = ret["username"]
+    #         password = ret["password"]
+    #     except:
+    #         return jsonify({}), 400
 
-    #    return jsonify("Success!"), 200
+    #     if len(password) == 0 or username is None:
+    #         return jsonify({}), 400
 
-    #     print(len(password),len(username))
-        if len(password) == 0 or username is None:
-            return jsonify({}), 400
-        # hashedPas = hashlib.sha256(password.encode())
-
-    #     resp = User().find_by_username(username)
-
-    #     if resp == [] or resp[0]['password'] != hashedPas.hexdigest():
+    #     if pass_dict[username] != password:
     #         return jsonify({"username": username}), 400
 
     #     return jsonify({"username": username}), 200
 
-        try:
-            if pass_dict[username] != password:     # wrong password
-                return jsonify({}), 400
-
-            return jsonify({"username": username}), 200     #login success
-        except: # username invalid
-            return jsonify({}), 400
-
 # home page
-@app.route('/home')
+@app.route('/home', methods=['GET', 'POST'])
 def get_home():
-    return jsonify("NOAA Data"), 200
+    if request.method == 'GET':
+        return jsonify('NOAA Data?'), 200
+
+    elif request.method == 'POST':
+        ret = request.get_json()
+
+        try:
+            start = ret["start"]
+            end = ret["end"]
+            time = ret["time"]
+        except:
+            return jsonify('Bad Request'), 400
+
+        # call NOAA APIs here!
+        
+
+        return jsonify("Data from: {0} - {1} at {2}".format(start, end, time)), 200
+
     # user = User().find_by_username(username)
     # if user is None:
     #     return jsonify("User does not exist"), 400
