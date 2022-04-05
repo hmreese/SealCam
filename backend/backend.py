@@ -47,14 +47,17 @@ def get_home():
         try:
             start = ret["start"]
             end = ret["end"]
-            time = ret["time"]
+            #time = ret["time"]
         except:
             return jsonify('Bad Request'), 400
 
         # call NOAA APIs here!
-        get_stuff(start, end)
+        stuff = get_stuff(start, end)
+        if stuff == -1:
+            return jsonify('Bad Request, Dates must be within 30 days of eachother'), 400
+    
 
-        return jsonify("Data from: {0} - {1} at {2}".format(start, end, time)), 200
+        return jsonify("Data from: {0} - {1}".format(start, end)), 200
 
     # user = User().find_by_username(username)
     # if user is None:
