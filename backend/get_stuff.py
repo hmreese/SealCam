@@ -46,6 +46,47 @@ def get_stuff(startDate, endDate):
     pprint.pprint(stuff_dict)
     return stuff_dict
 
+## JSON format for stuff_dict:
+
+# stuff = {
+#   'YYYY-MM-DD': {
+#       'data_type1': [
+#           {'time': timeval, 'value': dataval},
+#           {'time': timeval, 'value': dataval}
+#       ]
+#       'data_type2': [
+#           {'time': timeval, 'value': dataval},
+#           {'time': timeval, 'value': dataval}
+#       ]
+#   },
+#   'YYYY-MM-DD': {
+#       'data_type1': [
+#           {'time': timeval, 'value': dataval},
+#           {'time': timeval, 'value': dataval}
+#       ]
+#       'data_type2': [
+#           {'time': timeval, 'value': dataval},
+#           {'time': timeval, 'value': dataval}
+#       ]
+#   }
+# }
+
+# send spreadsheet options to Avery
+
+# change to for ease of csv conversion:
+# stuff = {
+#   'YYYY-MM-DD HH:MM': {
+#       'data_type1': dataval,
+#       'data_type2': dataval,
+#       'data_type3': dataval
+#   },
+#   'YYYY-MM-DD HH:MM': {
+#       'data_type1': dataval
+#       'data_type2': dataval,
+#       'data_type3': dataval
+#   }
+# }
+
 
 if __name__ == "__main__":
     s = "2022-04-01"
