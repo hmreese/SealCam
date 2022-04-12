@@ -69,38 +69,8 @@ def get_home():
 @app.route('/download', methods=['GET', 'POST'])
 def get_csv():
     if request.method == 'GET':
-        # f = open('sealcamdata.csv', 'r')
-        # reader = csv.reader(f)
-        # csv = reader
-        # response = make_response(csv)
-        # cd = 'attachment; filename=sealcamdata.csv'
-        # response.headers['Content-Disposition'] = cd
-        # response.mimetype = 'text/csv'
-
-        # return response
         return send_file('sealcamdata.csv', as_attachment=True)
 
-#     if request.method == 'POST':
-#         stuff = request.get_json()
-
-#         f = open('sealcamdata.csv', 'w')
-#         writer = csv.writer(f)
-#         header = ["Date", "Time", "Air Temperature (F)", "Air Pressure (mb)", "Water Temperature (F)"]
-#         writer.writerow(header)
-
-#         stuff = sort_it(stuff)
-        
-#         for datetime in stuff:
-#             date = datetime[:10]
-#             time = datetime[11:]
-#             aTemp = stuff[datetime]["air_temperature"]
-#             aPress = stuff[datetime]["air_pressure"]
-#             wTemp = stuff[datetime]["water_temperature"]
-            
-#             row = [date, time, aTemp, aPress, wTemp]
-#             writer.writerow(row)
-
-#         return jsonify("hello"), 200
 
 # def sort_it(stuff):
 #     # convert out of order json/dictionary to list of dicts
