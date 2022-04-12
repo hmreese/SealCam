@@ -1,12 +1,9 @@
 from lib2to3.pgen2.token import AT
-from flask import Flask, make_response, send_file
+from flask import Flask, send_file
 from flask import request
 from flask import jsonify
 #from flask_mail import Mail
-import hashlib
-import json
 from flask_cors import CORS
-# from mongodb import User
 from get_stuff import *
 import csv
 import pprint
@@ -86,8 +83,6 @@ def get_csv():
 #     ret = [{date: stuff[date]}]
 #     for d in stuff:
 #         if
-
-
 
 
 if __name__ == "__main__":
