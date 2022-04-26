@@ -72,8 +72,8 @@ function MyApp() {
                 You are submitting the following:
                 <ul>
                    {Object.entries(formData).map(([name, value]) => (
-                      <li key={name}><strong>{name}</strong> {value}</li>,
-                      <li key={name}><strong>{name}</strong> {value}</li>
+                      <li key={name}><strong>{name}</strong>: {value}</li>,
+                      <li key={name}><strong>{name}</strong>: {value}</li>
                       ))}
                 </ul>
             </div>}
@@ -81,9 +81,9 @@ function MyApp() {
 	<form onSubmit={handleSubmit}>
            <fieldset>
               <label> Start Date </label>
-              <input type="date" name="start" onChange={handleChange}/>
+              <input type="date" name="Start Date" onChange={handleChange}/>
 	      <label> End Date </label>
-              <input type="date" name="end" onChange={handleChange}/>
+              <input type="date" name="End Date" onChange={handleChange}/>
            </fieldset>
            <button type="submit">Submit</button>
         </form>
