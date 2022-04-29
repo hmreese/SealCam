@@ -2,17 +2,13 @@ from lib2to3.pgen2.token import AT
 from flask import Flask, send_file
 from flask import request
 from flask import jsonify
-#from flask_mail import Mail
 from flask_cors import CORS
 from get_stuff import *
 import csv
 import pprint
-#import pandas
-#from apscheduler.schedulers.background import BackgroundScheduler
 
 app = Flask(__name__)
 CORS(app)
-#mail = Mail(app)
 
 @app.route('/', methods=['GET', 'POST'])
 def helloWorld():
@@ -39,50 +35,51 @@ def get_home():
         if stuff == -1:
             return jsonify('Bad Request, Dates must be within 30 days of eachother'), 400
 
+        listofstuff = sort_it(stuff, start)
+
         # write to file
-        f = open('sealcamdata.csv', 'w')
+        f = open("sealcamdata.csv", 'w')
         writer = csv.writer(f)
-        header = ["Date", "Time", "Air Temperature (F)", "Air Pressure (mb)", "Water Temperature (F)"]
+        header = ["Date", "Time", "Air Temperature (F)", "Water Level (ft)", "Water Temperature (F)", "Wind Speed (kn)", "Wind Direction", "Wind Gusts (kn)"]
         writer.writerow(header)
         
         #pprint.pprint(stuff)
 
-        for datetime in stuff:
-            date = datetime[:10]
-            time = datetime[11:]
-            aTemp = stuff[datetime]["air_temperature"]
-            aPress = stuff[datetime]["air_pressure"]
-            wTemp = stuff[datetime]["water_temperature"]
+        for datetime in listofstuff:
+            date = datetime["dt"][:10]
+            time = datetime["dt"][11:]
+            aTemp = datetime["air_temperature"]
+            wLev = datetime["water_level"]
+            wTemp = datetime["water_temperature"]
+            wSpeed = datetime["wind_speed"]
+            wDir = datetime["wind_dir"]
+            gusts = datetime["gusts"]
             
-            row = [date, time, aTemp, aPress, wTemp]
-            print(row)
+            row = [date, time, aTemp, wLev, wTemp, wSpeed, wDir, gusts]
             writer.writerow(row)
             
-        #pandas.read_csv("sealcamdata.csv")
 
-        return stuff, 200
+        return jsonify("sealcamdata.csv now available!"), 200
 
 # download page
 @app.route('/download', methods=['GET', 'POST'])
 def get_csv():
     if request.method == 'GET':
-        return send_file('sealcamdata.csv', as_attachment=True)
+        return send_file("sealcamdata.csv", as_attachment=True)
 
 
-# def sort_it(stuff):
-#     # convert out of order json/dictionary to list of dicts
-
-#     # find first date
-#     date = datetime.now()
-#     for dt in stuff:
-#         if dt[11:] == "00:00":
-#             dmy = datetime.strptime(str(dt[:10]), "%Y-%m-%d") 
-#             if dmy <= date:
-#                 date = dmy
+def sort_it(stuff, start):
+    # convert out of order json/dictionary to list of dicts
+    l = []
     
-#     ret = [{date: stuff[date]}]
-#     for d in stuff:
-#         if
+    for dict in stuff:
+        stuff[dict]["dt"] = dict      # add the datetime to the dict being added to the last
+        if dict <= start:
+            l.insert(stuff[dict], 0)
+        else:
+            l.append(stuff[dict])
+
+    return l
 
 
 if __name__ == "__main__":

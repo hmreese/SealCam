@@ -23,8 +23,8 @@ def get_stuff(startDate, endDate):
         date = (d1 + timedelta(days=i)).date()      # each day
         date = str(date).replace('-', '')           # format
         print(date)
-        data_type = ["air_temperature", "air_pressure", "water_temperature"]        # data values
-        urls = [" ", " ", " "]
+        data_type = ["air_temperature", "water_level", "water_temperature", "wind"]        # data values
+        urls = [" "] * len(data_type)
 
         # Prepare urls for each data type
         for k in range(len(data_type)):
@@ -39,23 +39,33 @@ def get_stuff(startDate, endDate):
             t = str(d["t"]).replace('u', '')
             stuff_dict[t] = {"air_temperature": str(d["v"]).replace('u', '')}
 
-        # the rest
-        i = 1
-        while i < len(data_type):
-            resp = requests.get(url=urls[i])
-            data = resp.json()["data"]
+        # water_level
+        resp = requests.get(url=urls[1])
+        try:
+            data_ = resp.json()["data"]
+            for d in data_:
+                t = str(d["t"]).replace('u', '')
+                stuff_dict[t]["water_level"] = str(d["v"]).replace('u', '')
+        except:
             for d in data:
                 t = str(d["t"]).replace('u', '')
-                stuff_dict[t][data_type[i]] = str(d["v"]).replace('u', '')
-            i+=1
+                stuff_dict[t]["water_level"] = "N/A"
 
-            # # air_pressure
-            # resp = requests.get(url=urls[2])
-            # data = resp.json()["data"]
-            # for d in data:
-            #     t = str(d["t"]).replace('u', '')
-            #     stuff_dict[t]["water_temperature"] = str(d["v"]).replace('u', '')
+        # water_temperature
+        resp = requests.get(url=urls[2])
+        data = resp.json()["data"]
+        for d in data:
+            t = str(d["t"]).replace('u', '')
+            stuff_dict[t]["water_temperature"] = str(d["v"]).replace('u', '')        
 
+        # wind
+        resp = requests.get(url=urls[3])
+        data = resp.json()["data"]
+        for d in data:
+            t = str(d["t"]).replace('u', '')
+            stuff_dict[t]["wind_speed"] = str(d["s"]).replace('u', '')  
+            stuff_dict[t]["wind_dir"] = str(d["dr"]).replace('u', '')  
+            stuff_dict[t]["gusts"] = str(d["g"]).replace('u', '')  
 
     #pprint.pprint(stuff_dict)
     return stuff_dict
