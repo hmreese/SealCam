@@ -17,10 +17,17 @@
   button {
     border: none;
     padding: 1rem;
-    width: 21.2rem;
+    width: 15rem;
     font-size: 1.2em;
     border-radius: 0.2rem;
     cursor: pointer;
+    margin: 0;
+    position: absolute;
+    top: 37%;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    background-color: #38b6ff;
   }
   button:hover {
     background-color: #c5c5c5;
@@ -28,5 +35,5 @@
   .message {
     font-size: 1.2em;
     text-align: center;
-    color: #36a936;
+    color: #38b6ff;
   }

@@ -13,11 +13,11 @@ function MyApp() {
     const [end, setEnd] = useState("");
     const [message, setMessage] = useState("");
 
-
     let handleSubmit = async (e) => {
         e.preventDefault();
         try {
-          const res = await fetch("https://sealcamdata.herokuapp.com/", {
+          setMessage("Gathering Data...");
+          const res = await fetch("https://sealcamdata.herokuapp.com/home", {
             method: "POST",
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
@@ -40,10 +40,7 @@ function MyApp() {
 
       return (
         <div className="MyApp">
-            <div className="Title">
-                <h1>SEAL CAM</h1>
-                <div className="Title-Subtitle">NOAA Data</div>
-            </div>
+            <Title />
             <form onSubmit={handleSubmit}>
                 <input
                 type="date"
