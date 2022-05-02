@@ -1,17 +1,77 @@
-.Title {
-    box-sizing: border-box;
-    width: 100%;
+@import url("https://fonts.googleapis.com/css?family=Hammersmith+One:400");
+
+.valign-text-middle {
     display: flex;
+    flex-direction: column;
     justify-content: center;
-    align-items: baseline;
-    padding: 1em;
-    margin-bottom: 1em;
-    background-color: #38b6ff;
-  }
-  .Title-Subtitle {
-    color: rgba(0, 0, 0, 0.75);
-    justify-content: center;
+}
+.header {
+    align-items: flex-start;
+    display: flex;
+    height: 212px;
+    left: 0;
+    min-width: 1444px;
+    position: fixed;
+    top: 0;
+    z-index: 1;
+}
+.overlap-group {
     align-items: center;
-    margin-bottom: 2em;
+    background-color: #38b6ff;
     display: flex;
-  }
+    height: 212px;
+    min-width: 1440px;
+    padding: 20px 35px;
+    margin-bottom: 40px;
+}
+.seal-container {
+    align-items: flex-start;
+    align-self: flex-end;
+    display: flex;
+    flex-direction: column;
+    min-height: 166px;
+    width: 184px;
+}
+.seal-1 {
+    align-self: flex-end;
+    height: 104px;
+    object-fit: cover;
+    width: 178 px;
+}
+.seal-cam {
+    height: 53px;
+    letter-spacing: 0;
+    margin-top: 9px;
+    text-align: center;
+    width: 172px;
+    color: white;
+}
+.title {
+    height: 87px;
+    letter-spacing: 0;
+    margin-left: 703px;
+    margin-top: 1px;
+    text-align: center;
+    width: 458px;
+}
+.hammersmithone-normal-white-45px {
+    color: white;
+    font-family: "Hammersmith One";
+    font-size: 45px;
+    font-weight: 400;
+    font-style: normal;
+}
+.hammersmithone-normal-white-30px {
+    color: white;
+    font-family: "Hammersmith One";
+    font-size: 30px;
+    font-weight: 400;
+    font-style: normal;
+}
+.hammersmithone-normal-white-24px {
+    color: white;
+    font-family: "Hammersmith One";
+    font-size: 24px;
+    font-weight: 400;
+    font-style: normal;
+}

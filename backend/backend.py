@@ -1,5 +1,8 @@
 from lib2to3.pgen2.token import AT
+import mimetypes
 from flask import Flask, send_file
+from flask_mail import Mail, Message
+#import smtplib
 from flask import request
 from flask import jsonify
 from flask_cors import CORS
@@ -9,6 +12,15 @@ import pprint
 
 app = Flask(__name__)
 CORS(app)
+
+app.config['MAIL_SERVER']='smtp.gmail.com'
+app.config['MAIL_PORT'] = 465
+app.config['MAIL_USERNAME'] = 'peeroverpier@gmail.com'
+app.config['MAIL_PASSWORD'] = 'POPD3v3l0p'
+app.config['MAIL_USE_TLS'] = False
+app.config['MAIL_USE_SSL'] = True
+
+mail = Mail(app)
 
 @app.route('/', methods=['GET', 'POST'])
 def helloWorld():
@@ -61,11 +73,32 @@ def get_home():
 
         return jsonify("sealcamdata.csv now available!"), 200
 
-# download page
-@app.route('/download', methods=['GET', 'POST'])
+# download page, only works directly from backend
+@app.route('/download', methods=['GET'])
 def get_csv():
     if request.method == 'GET':
         return send_file("sealcamdata.csv", as_attachment=True)
+
+@app.route('/email', methods=['POST'])
+def email_csv():
+    if request.method == 'POST':
+        ret = request.get_json()
+
+        try:
+            email = ret["email"]
+            start = ret["start"]
+            end = ret["end"]
+        except:
+            return jsonify('Bad Request'), 400
+
+        subject = "Seal Cam Data: {0} to {1}".format(start, end)
+        msg = Message(subject, sender='peeroverpier@gmail.com', recipients=[email])
+        msg.body = "Hello! Here is the seal cam data file!"
+        with app.open_resource("sealcamdata.csv") as fp:
+            msg.attach("sealcamdata.csv", "text/csv", fp.read())
+            mail.send(msg)
+
+        return jsonify('idk man'), 200
 
 
 def sort_it(stuff, start):

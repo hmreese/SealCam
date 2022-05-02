@@ -11,30 +11,59 @@ import Title from "./Title"
 function MyApp() {
     const [start, setStart] = useState("");
     const [end, setEnd] = useState("");
+    const [email, setEmail] = useState("")
     const [message, setMessage] = useState("");
+
+    const state = {button: 1};
 
     let handleSubmit = async (e) => {
         e.preventDefault();
-        try {
-          setMessage("Gathering Data...");
-          const res = await fetch("https://sealcamdata.herokuapp.com/home", {
-            method: "POST",
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                start: start,
-                end: end
-            })
-          });
-          const resJson = await res.json();
-          if (res.status === 200) {
-            setStart("");
-            setEnd("");
-            setMessage("Success!");
-          } else {
-            setMessage("Uh oh");
-          }
-        } catch (err) {
-          console.log(err);
+        if (state.button === 1)
+        {
+            try {
+            setMessage("Gathering Data...");
+            const res = await fetch("http://127.0.0.1:5000/home", {
+                method: "POST",
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    start: start,
+                    end: end
+                })
+            });
+            const resJson = await res.json();
+            if (res.status === 200) {
+                setMessage("Success!");
+            } else {
+                setMessage("Uh oh");
+            }
+            } catch (err) {
+            console.log(err);
+            }
+        }
+        else if (state.button === 2)
+        {
+            try {
+                setMessage("Emailing...");
+                const res = await fetch("http://127.0.0.1:5000/email", {
+                    method: "POST",
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        email: email,
+                        start: start,
+                        end: end
+                    })
+                });
+                const resJson = await res.json();
+                if (res.status === 200) {
+                    setMessage("Sent!");
+                    setStart("");
+                    setEnd("");
+                } else {
+                    setMessage("Uh oh");
+                }
+                } catch (err) {
+                console.log(err);
+                }
         }
       };
 
@@ -54,14 +83,34 @@ function MyApp() {
                 value={end}
                 placeholder="End"
                 onChange={(e) => setEnd(e.target.value)}
-                style={{width: "370px", display: "flex",
-                justifyContent: "center",
-                alignItems: "center"}}
+                style={{width: "370px"}}
                 />
         
-                <button type="submit">Submit</button>
-        
+                <button 
+                    onClick={() => (state.button = 1)}
+                    type="submit"
+                    name="Submit"
+                    style={{width: "370px"}}
+                >Submit
+                </button>
+
                 <div className="message">{message ? <p>{message}</p> : null}</div>
+
+                <input
+                type="text"
+                value={email}
+                placeholder="Email"
+                onChange={(e) => setEmail(e.target.value)}
+                style={{width: "370px"}}
+                />
+                <button 
+                    onClick={() => (state.button = 2)}
+                    type="submit"
+                    name="Email"
+                    style={{width: "370px"}}
+                >Email Me!
+                </button>
+                
             </form>
         </div>
       );

@@ -3,7 +3,7 @@
     flex-direction: column; 
     justify-content: center;
     align-items: center;
-    margin-top: 5rem;
+    margin-top: 30px;
   }
   input {
     display: block;
@@ -12,9 +12,13 @@
     padding: 0.5rem;
     font-size: 1.1em;
     font-weight: 500;
-    margin-bottom: 2rem;
+    margin-bottom: 20px;
   }
-  button {
+  button { 
+    display: flex;
+    flex-direction: column; 
+    text-align: center;
+    align-items: center;
     border: none;
     padding: 1rem;
     width: 15rem;
@@ -22,18 +26,15 @@
     border-radius: 0.2rem;
     cursor: pointer;
     margin: 0;
-    position: absolute;
-    top: 37%;
-    left: 50%;
-    -ms-transform: translate(-50%, -50%);
-    transform: translate(-50%, -50%);
     background-color: #38b6ff;
   }
   button:hover {
-    background-color: #c5c5c5;
+    background-color: #38b6ff;
   }
   .message {
     font-size: 1.2em;
     text-align: center;
     color: #38b6ff;
+    margin-bottom: 10px;
+    margin-top: 10px;
   }
