@@ -20,6 +20,7 @@
     text-align: center;
     align-items: center;
     border: none;
+    margin-bottom: 20px;
     padding: 1rem;
     width: 15rem;
     font-size: 1.2em;
@@ -32,6 +33,13 @@
     background-color: #38b6ff;
   }
   .message {
+    font-size: 1.2em;
+    text-align: center;
+    color: #38b6ff;
+    margin-bottom: 10px;
+    margin-top: 10px;
+  }
+  .hyperlink {
     font-size: 1.2em;
     text-align: center;
     color: #38b6ff;

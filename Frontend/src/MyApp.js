@@ -22,7 +22,7 @@ function MyApp() {
         {
             try {
             setMessage("Gathering Data...");
-            const res = await fetch("http://127.0.0.1:5000/home", {
+            const res = await fetch("https://sealcamdata.herokuapp.com/home", {
                 method: "POST",
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
@@ -44,7 +44,7 @@ function MyApp() {
         {
             try {
                 setMessage("Emailing...");
-                const res = await fetch("http://127.0.0.1:5000/email", {
+                const res = await fetch("https://sealcamdata.herokuapp.com/email", {
                     method: "POST",
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
@@ -110,8 +110,12 @@ function MyApp() {
                     style={{width: "370px"}}
                 >Email Me!
                 </button>
-                
             </form>
+            <div className="hyperlink">
+            <a href="https://sealcamdata.herokuapp.com/download" rel="noreferrer">
+                Download
+                </a>
+            </div>
         </div>
       );
 
