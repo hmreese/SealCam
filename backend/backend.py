@@ -1,18 +1,16 @@
 from lib2to3.pgen2.token import AT
-import mimetypes
 from flask import Flask, send_file
 from flask_mail import Mail, Message
-#import smtplib
 from flask import request
 from flask import jsonify
 from flask_cors import CORS
 from get_stuff import *
 import csv
-import pprint
 
 app = Flask(__name__)
 CORS(app)
 
+# Email Setup
 app.config['MAIL_SERVER']='smtp.gmail.com'
 app.config['MAIL_PORT'] = 465
 app.config['MAIL_USERNAME'] = 'peeroverpier@gmail.com'
@@ -22,12 +20,13 @@ app.config['MAIL_USE_SSL'] = True
 
 mail = Mail(app)
 
+# Hello World
 @app.route('/', methods=['GET', 'POST'])
 def helloWorld():
     if request.method == 'GET':
         return jsonify("Welcome to Seal Cam Stats!"), 200
 
-# home page
+# Home Page
 @app.route('/home', methods=['GET', 'POST'])
 def get_home():
     if request.method == 'GET':
@@ -36,6 +35,7 @@ def get_home():
     elif request.method == 'POST':
         ret = request.get_json()
 
+        # get start & end dates
         try:
             start = ret["start"]
             end = ret["end"]
@@ -54,9 +54,8 @@ def get_home():
         writer = csv.writer(f)
         header = ["Date", "Time", "Air Temperature (F)", "Water Level (ft)", "Water Temperature (F)", "Wind Speed (kn)", "Wind Direction", "Wind Gusts (kn)"]
         writer.writerow(header)
-        
-        #pprint.pprint(stuff)
 
+        # for each day and time of day, write data
         for datetime in listofstuff:
             date = datetime["dt"][:10]
             time = datetime["dt"][11:]
@@ -68,17 +67,17 @@ def get_home():
             gusts = datetime["gusts"]
             
             row = [date, time, aTemp, wLev, wTemp, wSpeed, wDir, gusts]
-            writer.writerow(row)
-            
+            writer.writerow(row)  
 
         return jsonify("sealcamdata.csv now available!"), 200
 
-# download page, only works directly from backend
+# Download CSV
 @app.route('/download', methods=['GET'])
 def get_csv():
     if request.method == 'GET':
         return send_file("sealcamdata.csv", as_attachment=True)
 
+# Email CSV
 @app.route('/email', methods=['POST'])
 def email_csv():
     if request.method == 'POST':
@@ -98,11 +97,10 @@ def email_csv():
             msg.attach("sealcamdata.csv", "text/csv", fp.read())
             mail.send(msg)
 
-        return jsonify('idk man'), 200
+        return jsonify('Email sent!'), 200
 
-
+# Convert out of order json/dictionary to list of dicts
 def sort_it(stuff, start):
-    # convert out of order json/dictionary to list of dicts
     l = []
     
     for dict in stuff:

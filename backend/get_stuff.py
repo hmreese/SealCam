@@ -1,7 +1,6 @@
 from datetime import datetime
 from datetime import timedelta
 
-import pprint
 import requests
 
 def get_stuff(startDate, endDate):
@@ -11,6 +10,7 @@ def get_stuff(startDate, endDate):
     
     numdays = abs((d2 - d1).days) + 1
     
+    # Don't allow more than 30 day intervals
     if(numdays > 30):
         print("Too many days apart, must be 30 days or less")
         return -1
@@ -67,49 +67,8 @@ def get_stuff(startDate, endDate):
             stuff_dict[t]["wind_dir"] = str(d["dr"]).replace('u', '')  
             stuff_dict[t]["gusts"] = str(d["g"]).replace('u', '')  
 
-    #pprint.pprint(stuff_dict)
     return stuff_dict
 
-## JSON format for stuff_dict:
-
-# stuff = {
-#   'YYYY-MM-DD': {
-#       'data_type1': [
-#           {'time': timeval, 'value': dataval},
-#           {'time': timeval, 'value': dataval}
-#       ]
-#       'data_type2': [
-#           {'time': timeval, 'value': dataval},
-#           {'time': timeval, 'value': dataval}
-#       ]
-#   },
-#   'YYYY-MM-DD': {
-#       'data_type1': [
-#           {'time': timeval, 'value': dataval},
-#           {'time': timeval, 'value': dataval}
-#       ]
-#       'data_type2': [
-#           {'time': timeval, 'value': dataval},
-#           {'time': timeval, 'value': dataval}
-#       ]
-#   }
-# }
-
-# change to for ease of csv conversion:
-# stuff = {
-#   'YYYY-MM-DD HH:MM': {
-#       'data_type1': dataval,
-#       'data_type2': dataval,
-#       'data_type3': dataval
-#   },
-#   'YYYY-MM-DD HH:MM': {
-#       'data_type1': dataval
-#       'data_type2': dataval,
-#       'data_type3': dataval
-#   }
-# }
-
-# Date, Time, Data1, Data2, Data3
 
 if __name__ == "__main__":
     s = "2022-04-06"
